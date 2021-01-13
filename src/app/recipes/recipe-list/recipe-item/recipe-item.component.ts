@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { RecipeService } from '../../recipe.service';
+import { Component, Input, OnInit} from '@angular/core';
 //to make available recipe model
 import { Recipe } from '../../recipe.model';
 
@@ -11,14 +10,11 @@ import { Recipe } from '../../recipe.model';
 export class RecipeItemComponent implements OnInit {
  //Here is where we can now use the recipe model created
  @Input() recipe: Recipe;
-
-  constructor(private recipeService: RecipeService) { }
+ 
+ //we need to pass index id property to the recipe list html item looped through
+ @Input() index: number;
 
   ngOnInit(): void {
-  }
-
-  onSelected(){
-    this.recipeService.recipeSelected.emit(this.recipe);
   }
 
 }

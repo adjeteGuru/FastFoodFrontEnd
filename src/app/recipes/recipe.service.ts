@@ -46,6 +46,11 @@ export class RecipeService {
         return this.recipes.slice();
     }
 
+    //we return a single recipe
+    getRecipe(index: number){
+        return this.recipes[index];
+    }
+
     //here we need to access shopping list service hence inject service into service (@Injectable() at the top to allow that)
     //we expect to recive ingredients
     addIngredientsToShoppingList(ingredients: Ingredient[]){
