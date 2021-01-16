@@ -1,4 +1,5 @@
-import { EventEmitter } from "@angular/core";
+
+import { Subject } from "rxjs";
 import { Ingredient } from "../shared/ingredient.model";
 
 export class ShoppingListService{
@@ -7,7 +8,7 @@ export class ShoppingListService{
    // ingredientAdded = new EventEmitter<Ingredient>();
 
     //this can emit array of Ingredients or Ingredient[] that will be passed on
-    ingredientsChanged = new EventEmitter<Ingredient[]>();
+    ingredientsChanged = new Subject<Ingredient[]>();
     private ingredients: Ingredient[] = [  
         new Ingredient('tomatos', 3),
         new Ingredient('apple', 5)
@@ -21,7 +22,7 @@ export class ShoppingListService{
         this.ingredients.push(ingredient);
         //here whenever we change array, we simply call ingredientChanged and emit new event
         //which is a new copy of the latest true copy of the ingredients array 
-        this.ingredientsChanged.emit(this.ingredients.slice());
+        this.ingredientsChanged.next(this.ingredients.slice());
       }
 
       //here we will recive ingredients of type array
@@ -32,7 +33,7 @@ export class ShoppingListService{
         // }
         //viable option which to add all ingredients in one go pread operator which allow to turn an array of elements into a list of elements
         this.ingredients.push(...ingredients);
-        //then emit the new ingredientChanged as a new copy
-        this.ingredientsChanged.emit(this.ingredients.slice());
+        //then send the new ingredientChanged as a new copy
+        this.ingredientsChanged.next(this.ingredients.slice());
       }
 }
