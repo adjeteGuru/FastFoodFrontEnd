@@ -28,6 +28,11 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     );
   }
 
+  onEditItem(index: number){
+    //fecth the current item and emit new value --> now we can edit it in the shopping edit
+    this.shoppingService.startedEditing.next(index);  
+  }
+
   //destroy whenever we leave the page
   ngOnDestroy(): void {
     this.ingChangeSub.unsubscribe();
