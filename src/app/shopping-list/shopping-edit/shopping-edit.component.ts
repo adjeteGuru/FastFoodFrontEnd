@@ -13,7 +13,7 @@ import { ShoppingListService } from '../shopping-list.service';
 export class ShoppingEditComponent implements OnInit, OnDestroy {
   //after edited item , now we want to update the form---> so we need access to the form
   //but using the reference together with the view child to rich out #f
-  @ViewChild('f') shoplistForm: NgForm;
+  @ViewChild('f', {static:false}) shoplistForm: NgForm;
  //create the subscription so we can destroy it later
  subscription: Subscription;
  //store the info of whether we allow to edit or create a new item

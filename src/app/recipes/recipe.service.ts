@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Subject } from "rxjs";
 import { Ingredient } from "../shared/ingredient.model";
 import { ShoppingListService } from "../shopping-list/shopping-list.service";
 import { Recipe } from "./recipe.model";
@@ -8,6 +9,9 @@ import { Recipe } from "./recipe.model";
     providedIn: 'root',
   })
 export class RecipeService {
+
+    //this to store any changes made on the original copy of recipes array
+ recipesChanged = new Subject<Recipe[]>();   
       
     private recipes: Recipe[] = [
         new Recipe('Kofte Kebab', 
@@ -47,7 +51,6 @@ export class RecipeService {
     getRecipe(index: number){
         return this.recipes[index];
     }
-
     //here we need to access shopping list service hence inject service into service (@Injectable() at the top to allow that)
     //we expect to recive ingredients
     addIngredientsToShoppingList(ingredients: Ingredient[]){
@@ -55,5 +58,27 @@ export class RecipeService {
         this.shoppingService.addIngredients(ingredients);
     }
 
+    //to add new recipe
+    AddRecipe(recipe: Recipe){
+        //here we take recipes array and push new one on it
+        this.recipes.push(recipe);
+        //having created a new property to  store changes,I emit a new value which is a new copy
+        this.recipesChanged.next(this.recipes.slice());
+    }
+
+    //to update exisitng recipe
+    updateRecipe(index: number, newRecipe: Recipe){
+        //here we fetch by providing index of existing from recipes array then set it to new recipe
+        this.recipes[index] = newRecipe;
+        //emit new value (new copy of the array)
+        this.recipesChanged.next(this.recipes.slice());
+    }
+
+    deleteRecipe(index: number){
+        //call the recipes array then remove it
+        this.recipes.splice(index, 1);
+        //then call recipes changes and emit a new copy (updated recipes)
+        this.recipesChanged.next(this.recipes.slice());
+    }
 
 }

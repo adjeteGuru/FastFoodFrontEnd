@@ -37,8 +37,15 @@ id: number;
   onEditRecipe(){
     this.router.navigate(['edit'], {relativeTo: this.route});
     //we could use this method too
-    //which means: one up levelvthen this id edit
+    //which means: one up level then this id edit
     //this.router.navigate(['../', this.id, 'edit'], {relativeTo: this.route})
+  }
+
+  //delete
+  onDeleteRecipe(){    
+    this.recipeService.deleteRecipe(this.id);
+    //navigate away
+    this.router.navigate(['/recipes']);
   }
 
 }
