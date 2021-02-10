@@ -13,7 +13,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   ingredients: Ingredient[];
 
   //we need to create a property to store ingredients changes
-  private ingChangeSub: Subscription;
+  private subscription: Subscription;
   constructor(private shoppingService: ShoppingListService) { }
  
 
@@ -21,7 +21,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     this.ingredients = this.shoppingService.getIngredients(); //at the time we load the app to get these ingredients --->
     //we will also get hold of the shoppingService to subscribe to that ingredients changed event 
     //here we store the changed
-    this.ingChangeSub = this.shoppingService.ingredientsChanged.subscribe(
+    this.subscription = this.shoppingService.ingredientsChanged.subscribe(
       (ingredients: Ingredient[]) => { //here whenever ingredients change we get the updadte and pass it to this.ingeredients equal to ingredients
         this.ingredients = ingredients;
       }
@@ -35,7 +35,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
 
   //destroy whenever we leave the page
   ngOnDestroy(): void {
-    this.ingChangeSub.unsubscribe();
+    this.subscription.unsubscribe();
   }
   
 }
